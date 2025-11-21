@@ -1,7 +1,10 @@
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { createTodo } from './todosSlice';
 
-export default function NewTodoForm({ onCreateClicked }) {
+export default function NewTodoForm() {
     const [inputText, setInputText] = useState('');
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -11,7 +14,7 @@ export default function NewTodoForm({ onCreateClicked }) {
                 onChange={event => setInputText(event.target.value)}
             />
             <button onClick={() => {
-                onCreateClicked(inputText);
+                dispatch(createTodo(inputText));
                 setInputText('');
             }}>Create Todo</button>
         </>

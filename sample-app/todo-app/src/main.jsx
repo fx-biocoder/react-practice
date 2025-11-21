@@ -1,10 +1,22 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { configureStore } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
+import { todosSlice } from './todosSlice.jsx'
 import './index.css'
 import App from './App.jsx'
 
+// Create Redux store
+const store = configureStore({
+  reducer: {
+    todos: todosSlice.reducer,
+  }
+});
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </StrictMode>,
 )
