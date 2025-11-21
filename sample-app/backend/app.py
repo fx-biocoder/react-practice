@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app, resorces={r"/api/*": {"origins": "http://localhost:5173"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 todos = [{
     'id': '123',
@@ -9,12 +12,12 @@ todos = [{
 }]
 
 
-@app.route('/todos', methods=['GET'])
+@app.route('/api/todos', methods=['GET'])
 def get_todos():
     return jsonify(todos)
 
 
-@app.route('/todos', methods=['POST'])
+@app.route('/api/todos', methods=['POST'])
 def create_todo():
     new_todo = {
         "id": str(int(__import__("time").time() * 1000)),
@@ -25,14 +28,14 @@ def create_todo():
     return jsonify(new_todo)
 
 
-@app.route('/todos/<id>', methods=['DELETE'])
+@app.route('/api/todos/<id>', methods=['DELETE'])
 def delete_todo(id):
     global todos
     todos = [todo for todo in todos if todo["id"] != id]
     return '', 204
 
 
-@app.route('/todos/<id>', methods=['PUT'])
+@app.route('/api/todos/<id>', methods=['PUT'])
 def update_todo(id):
     updated_data = request.json
 
